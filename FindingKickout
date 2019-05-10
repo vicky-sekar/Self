@@ -1,0 +1,51 @@
+package com.fpit.rave;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Calendar;
+
+public class FindingKickout {
+	BufferedReader bufferedReader=null;
+	BufferedWriter bufferedWriter = null;
+	String kickOutLines;
+	public void getVORGTLR1KickOut(String CFESDAVORGTLR1_LogTxt, String CFESDAVORGTLR1_KickOutTxt){
+		try{
+		 bufferedReader=new BufferedReader(new FileReader(CFESDAVORGTLR1_LogTxt));
+		 bufferedWriter = new BufferedWriter(new FileWriter(CFESDAVORGTLR1_KickOutTxt));
+		 while ((kickOutLines=bufferedReader.readLine())!=null){
+		      
+			  if(kickOutLines.contains(Calendar.getInstance().get(Calendar.YEAR)+"-YR")){   
+		     bufferedWriter.write(kickOutLines);
+		     bufferedWriter.flush();
+			  }
+		   }
+		   bufferedWriter.close();
+		   bufferedReader.close();
+		   }catch(Exception exception){
+			   System.out.println("There was some error in file"+exception);
+		   }
+		
+	}
+	
+	
+	public void getRORGTLR3KickOut(String CFESDARORGTLR3_LogTxt, String CFESDARORGTLR3_KickOutTxt){
+		try{
+		 bufferedReader=new BufferedReader(new FileReader(CFESDARORGTLR3_LogTxt));
+		 bufferedWriter = new BufferedWriter(new FileWriter(CFESDARORGTLR3_KickOutTxt));
+		 while ((kickOutLines=bufferedReader.readLine())!=null){
+		      
+			  if(kickOutLines.contains(Calendar.getInstance().get(Calendar.YEAR)+"-YR")){   
+		     bufferedWriter.write(kickOutLines);
+		     bufferedWriter.flush();
+			  }
+		   }
+		   bufferedWriter.close();
+		   bufferedReader.close();
+		   }catch(Exception exception){
+			   System.out.println("There was some error in file"+exception);
+		   }
+		
+	}
+
+}
