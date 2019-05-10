@@ -1,0 +1,229 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@page import="com.rim.operation.TestMain"%>
+<%@page import="com.rim.operation.Testmethod"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>RIM Health Check</title>
+</head>
+<style>
+.container{
+width:100%;height:40px;text-align: center;vertical-align: middle;position:relative;
+}
+.header{
+width: 100%;height:80px;background-color: #8BC941;border-radius:25px;font: normal 20px/1 "Trebuchet MS", Helvetica, sans-serif;
+}
+.container1{
+width:100%;height:50px;background-color: none;
+}
+.container2{width:80%;height:100px;background-color:none;left:10%;position:relative;
+}
+.container3{width:80%;height:100px;background-color:none;left:10%;position:relative; 
+}
+.container4{width:80%;height:100px;background-color:none;left:10%;position:relative;  
+}
+.container5{width:80%;height:100px;background-color:none;left:10%;position:relative;  
+}
+.container6{width:80%;height:50px;background-color:none;left:10%;position:relative; 
+}
+.buttonCss{height:70%;width:55%;font: normal 20px/normal "Comic Sans MS", cursive, sans-serif;background:none;color:#8BC941;border-radius:35px;border:4px solid #8BC941;
+box-shadow: 0 2px 15px 4px #ffff80;	
+}
+.buttonCss:hover {background-color:#8BC941;color:white;border-color:#8BC941;
+}
+.buttonCss:active:focus{
+    outline:none;
+}
+</style>
+<script>
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =
+    h + ":" + m + ":" + s +" "+"IST";
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+function getOnloadFunctions(){
+	startTime();
+}
+</script>
+<body onload="getOnloadFunctions()" style="background-color: white;">
+<form name="rimHealthCheck" action="RimHealthCheck" method="post">
+<div class="container">
+<div class="header" >
+<H1 style="color:white;top:25%;position:relative;">RIM URL HEALTH CHECK DASHBOARD</H1>
+</div>
+<br>
+<br>
+<div class="container1" >
+<table style="height:50px;width:100%">
+<tr>
+<td style="width:80%;height:50px;background-color:none"></td>
+<td style="width:20%;height:50px;text:bold">
+<div id="txt" style="color:#8BC941;font: bold 20px/1 Verdana, Geneva, sans-serif;">
+</div></td>
+</tr>
+</table>
+</div>
+<div class="container2" >
+<table style="height:100px;width:100%">
+<tr>
+<% TestMain tm1 = new TestMain();
+String overallstatuscapture1=tm1.individualURLResposnes("edms-");
+if(overallstatuscapture1==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="EDMS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture1==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="EDMS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="EDMS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm2 = new TestMain();
+String overallstatuscapture2=tm2.individualURLResposnes("fescodoc-");
+if(overallstatuscapture2==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FESCODOC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture2==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FESCODOC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FESCODOC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm3 = new TestMain();
+String overallstatuscapture3=tm3.individualURLResposnes("fmtc-");
+if(overallstatuscapture3==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FMTC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture3==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FMTC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FMTC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<%TestMain tm4 = new TestMain();
+String overallstatuscapture4=tm4.individualURLResposnes("crw-");
+if(overallstatuscapture4==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="CRW" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture4==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="CRW" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="CRW" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<div class="container3" >
+<table style="height:100px;width:100%">
+<tr>
+<% TestMain tm5 = new TestMain();
+String overallstatuscapture5=tm5.individualURLResposnes("econtent-");
+if(overallstatuscapture5==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="ECONTENT" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture5==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="ECONTENT" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="ECONTENT" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm6 = new TestMain();
+String overallstatuscapture6=tm6.individualURLResposnes("pwidms-");
+if(overallstatuscapture6==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="PWIDMS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture6==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="PWIDMS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="PWIDMS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm7 = new TestMain();
+String overallstatuscapture7=tm7.individualURLResposnes("wi-");
+if(overallstatuscapture7==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="WI" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture7==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="WI" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="WI" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<%TestMain tm8 = new TestMain();
+String overallstatuscapture8=tm8.individualURLResposnes("trademark-");
+if(overallstatuscapture8==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="TRADEMARK" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture8==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="TRADEMARK" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="TRADEMARK" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<div class="container4" >
+<table style="height:100px;width:100%">
+<tr>
+<% TestMain tm9 = new TestMain();
+String overallstatuscapture9=tm9.individualURLResposnes("fcps-");
+if(overallstatuscapture9==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FCPS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture9==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FCPS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FCPS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm10 = new TestMain();
+String overallstatuscapture10=tm10.individualURLResposnes("hr-");
+if(overallstatuscapture10==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="HR" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture10==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="HR" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="HR" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm11 = new TestMain();
+String overallstatuscapture11=tm11.individualURLResposnes("ffas-");
+if(overallstatuscapture11==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FFAS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture11==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FFAS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FFAS" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<% TestMain tm12 = new TestMain();
+String overallstatuscapture12=tm12.individualURLResposnes("fiddoc-");
+if(overallstatuscapture12==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FIDDOC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture12==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FIDDOC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="FIDDOC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+</tr>
+</table>
+</div>
+<br>
+<div class="container5">
+<table style="height:100px;width:100%">
+<tr>
+<td style="height:100px;width:30%"></td>
+<% TestMain tm13= new TestMain();
+String overallstatuscapture13=tm13.individualURLResposnes("xtrac-");
+if(overallstatuscapture13==("Fail")){ %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="XTRAC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #ff9980;"></td>
+<%} else if (overallstatuscapture13==("Routed Away")) {%>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="XTRAC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 8px #ffff80;"></td>
+<% }else { %>
+<td style="height:100px;width:25%;border-radius:35px"><input type="submit" value="XTRAC" name="submit" id="edms" class="buttonCss" style="box-shadow: 0 2px 15px 7px #9fff80;"></td>
+<%} %>
+<td style="height:100px;width:30%"></td>
+</tr>
+</table>
+</div>
+</div>
+</form>
+</body>
+</html>
