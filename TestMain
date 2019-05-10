@@ -1,0 +1,49 @@
+package com.rim.operation;
+import java.util.ArrayList;
+public class TestMain extends Testmethod{
+ArrayList<String> list=new ArrayList<String>();
+	
+	public  String individualURLResposnes(String testing) throws Exception
+	{
+		Testmethod test =new Testmethod();
+		String [] arr=test.getStatus(testing);
+		String test1 = "";
+			for(int i = 0;i<arr.length;i++)
+		{
+			list.add(individualURLstats((test.getstauscode(arr[i])),(test.patternmatcher(arr[i]))));
+			
+		}
+			System.out.println(list);
+		 if(list.contains("Fail"))
+				 {
+			 test1=("Fail");
+				 }
+		 else if(list.contains("Routed Away"))
+		 {
+			 test1=("Routed Away");
+		 }
+		 else
+		 {
+			 test1=("Success"); 	
+		 }
+		 return test1;
+	}
+	public  String  individualURLstats(int c,int d)
+	{   
+		String value =null;
+		if(d==100)
+		{
+				value="Routed Away";			
+		}
+		else if(c==302 || c==200)
+		{
+		        value="Success";
+		}
+		else 
+		{
+			    value="Fail";
+		}
+		return value;
+	}
+}    
+ 
