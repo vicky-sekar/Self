@@ -1,0 +1,86 @@
+package com.fpit.rave;
+
+import java.util.*;  
+import javax.mail.*;  
+import javax.mail.internet.*;  
+import javax.activation.*;  
+  
+class SendHtmlEmail  
+{  
+   public static void main(String [] args)  
+   {
+   // Recipient's email ID needs to be mentioned.
+   String to = "Vignesh.Sekar@fmr.com"; 
+
+   // Sender's email ID needs to be mentioned
+   String from = "venkatesan.subramanian@fmr.com";
+
+   // Assuming you are sending email from localhost
+   String host = "MAIL.FMR.COM";
+
+   // Get system properties
+   Properties properties = System.getProperties();
+
+   // Setup mail server
+   properties.setProperty("mail.smtp.host", host);
+
+   // Get the default Session object.
+   Session session = Session.getDefaultInstance(properties);
+
+   try{
+      // Create a default MimeMessage object.
+      MimeMessage message = new MimeMessage(session);
+
+      // Set From: header field of the header.
+      message.setFrom(new InternetAddress(from));
+
+      // Set To: header field of the header.
+      message.addRecipient(Message.RecipientType.TO,
+                               new InternetAddress(to));
+
+      // Set Subject: header field
+      message.setSubject("Don Venkat sending this");
+
+      // Now set the actual message
+message.setContent("<html>"
+         +"<style type=\"text/css\">"
+         +"table.myTable {"
+         +"border-collapse: collapse;"
+         +"}table.myTable td,table.myTable th {border: 1px solid black;padding: 5px;}"
+         +"</style>"
+         +"<body>"
+         +"<table width=\"60%\" align=\"center\" class=\"myTable\">"
+         +"<tr><th colspan=\"2\" align=\"left\" bgcolor=\"#9BBB59\">"
+         +"<image width=60 height=49 src=\"http://vc2coma1078465n:8080/CTGPSPORTAL1/images/CMP_Logo.png\" />  Venkat sending this notification"
+         +"</th></tr>"
+         +"<tr>"
+         +"    <td>What</td>"
+         +"   <td>Yeppa varuva</td>"
+         +"</tr>"
+         +"<tr>"
+         +"   <td>Why</td>"
+         +"    <td>Keela pogalamnu</td>"
+         +"</tr>"
+         +"<tr>"
+          +"   <td>When</td>"
+         +"    <td>Ni vanthathum or late aana Suresh kuda</td>"
+         +"</tr>"
+         +"<tr>"
+          +"   <td>Required</td>"
+          +"   <td>Me and Cig</td>"
+         +"</tr>"
+        
+         
+         +"</table>"
+         +"</body></html>",
+          "text/html");
+
+
+
+      // Send message
+      Transport.send(message);
+      System.out.println("Sent message successfully....");
+   }catch (MessagingException mex) {
+      mex.printStackTrace();
+   }
+}  }
