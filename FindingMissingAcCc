@@ -1,0 +1,98 @@
+package com.fpit.rave;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class FindingMissingAcCc {
+	ArrayList<String> rORCUBEList = new ArrayList<String>();
+	ArrayList<String> rORCUBEList_1 = new ArrayList<String>();
+	ArrayList<String> dimTableList = new ArrayList<String>();
+	ArrayList<String> dimTableList_1 = new ArrayList<String>();
+	BufferedWriter bufferedWriter = null;
+	
+	public void getMissingAcCC(String rORCUBE_Value, String dimTable_Value){
+		 try (BufferedReader br = new BufferedReader(new FileReader(rORCUBE_Value))) {
+
+				String sCurrentLine;
+
+				while ((sCurrentLine = br.readLine()) != null) {
+					String[] words=sCurrentLine.split("\\r?\\n");//splits the string based on whitespace  
+					
+					for(String w:words){  
+				
+						rORCUBEList.add(w.replaceFirst ("^0*", "").replace("-OR", "").replace("-AC", ""));
+						rORCUBEList_1.add(w.replaceFirst ("^0*", "").replace("-OR", "").replace("-AC", ""));
+				}
+					
+				}
+				 
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		 
+		 try (BufferedReader br = new BufferedReader(new FileReader(dimTable_Value))) {
+
+				String sCurrentLine;
+
+				while ((sCurrentLine = br.readLine()) != null) {
+					String[] words=sCurrentLine.split("\\r?\\n");//splits the string based on whitespace  
+					
+					for(String w:words){  
+				
+						dimTableList.add(w.replaceFirst ("^0*", "").replace("-OR", "").replace("-AC", ""));
+						dimTableList_1.add(w.replaceFirst ("^0*", "").replace("-OR", "").replace("-AC", ""));
+		          
+				}
+					
+					
+					
+				}
+				 
+			} catch (IOException e) {  
+				e.printStackTrace();
+			}
+		
+		 
+		 try{    
+	          // FileWriter fw=new FileWriter("RESULT.txt");    
+	           bufferedWriter = new BufferedWriter(new FileWriter("RESULT.txt"));
+	           bufferedWriter.write( "**********************************************");
+	           bufferedWriter.newLine();
+	           bufferedWriter.write("* @Author : A598616 (Venkatesan Subramanian) *");
+	           bufferedWriter.newLine();
+	           bufferedWriter.write( "**********************************************");
+	           bufferedWriter.newLine();
+	           
+	           
+	           bufferedWriter.write("User : "+System.getProperty("user.name"));
+	           bufferedWriter.newLine();
+	           bufferedWriter.newLine();
+	           bufferedWriter.write("Total RORCUBE count is :"+rORCUBEList.size());
+	           bufferedWriter.newLine();
+	           bufferedWriter.write("Total DIM TABLE count is :"+dimTableList.size());
+	           bufferedWriter.newLine();
+	           rORCUBEList.removeAll(dimTableList);
+	           bufferedWriter.write( "----------------------------------------------");
+	           bufferedWriter.newLine();
+	           bufferedWriter.write("Total Missing ids (RORCUBE - DIM TABLE) : "+rORCUBEList.size());
+	           bufferedWriter.newLine();
+	           bufferedWriter.write( "RORCUBE - DIM TABLE Missig Id's are : "+rORCUBEList.toString());
+	           bufferedWriter.newLine();
+	           dimTableList_1.removeAll(rORCUBEList_1);
+	           bufferedWriter.write( "----------------------------------------------");
+	           bufferedWriter.newLine();
+	           bufferedWriter.write("Total Missing ids (DIM TABLE - RORCUBE) : "+dimTableList_1.size());
+	           bufferedWriter.newLine();
+	           bufferedWriter.write( "DIM TABLE - RORCUBE Missig Id's are: "+dimTableList_1.toString());
+	           bufferedWriter.newLine();
+	           bufferedWriter.write( "----------------------------------------------");
+	           bufferedWriter.close();    
+	          }catch(Exception e){System.out.println(e);}    
+	            
+	     }  
+		 
+	}
+
