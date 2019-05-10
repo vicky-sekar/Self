@@ -1,0 +1,15 @@
+package com.fpit.rave;
+
+public class RAVEMain {
+
+	public static void main(String[] args) {
+		CreateTextFile createTextFile=new CreateTextFile();
+		createTextFile.getCreateFile();
+		FindingKickout findingKickout=new FindingKickout();
+		FindingMissingAcCc findingMissingAcCc=new FindingMissingAcCc();
+		findingKickout.getRORGTLR3KickOut("CFESDARORGTLR3.txt", "CFESDARORGTLR3_kickout.txt");
+		findingKickout.getVORGTLR1KickOut("CFESDAVORGTLR1.txt", "CFESDAVORGTLR1_kickout.txt");
+		findingMissingAcCc.getMissingAcCC("RORCUBE.txt", "DIMTABLE.txt");
+	}
+
+}
