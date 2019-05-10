@@ -1,0 +1,52 @@
+#!/bin/sh
+#**** To perform auto recycle of VM instances if the exception found on the updating logs ******
+
+
+# ****declaration of variable ****
+#*** Total number of lines in catalina log file will be saved in tnol variable ****
+#*** Total number of VM's in catalina log file will be saved in tnol variable ****
+declare -i tnol
+declare -i Nvm
+declare -i c
+
+ Nvm=5
+	for (( c=1; c<=$Nvm; c++ ))
+	 do
+	 tnol=$(wc -l < /dedmswscrtp2/app/edms/tcserver/vfabric-tc-server-standard-2.8.1.RELEASE/vm${c}/logs/catalina.out)
+		if [ $(cat /dedmswscrtp2/app/edms/tcserver/vfabric-tc-server-standard-2.8.1.RELEASE/vm${c}/logs/linescount.txt) -ne $tnol ]; then
+		echo "VM${c} Logs have been updated recently"
+		echo $tnol > /dedmswscrtp2/app/edms/tcserver/vfabric-tc-server-standard-2.8.1.RELEASE/vm${c}/logs/linescount.txt
+			if  sed -n ''$(cat /dedmswscrtp2/app/edms/tcserver/vfabric-tc-server-standard-2.8.1.RELEASE/vm${c}/logs/linescount.txt)','${tnol}'p' /dedmswscrtp2/app/edms/tcserver/vfabric-tc-server-standard-2.8.1.RELEASE/vm${c}/logs/catalina.out | grep -i "adding lines" ; then  
+			echo "Hang pattern matches"
+			touch /dedmswscrtp2/admin/restartoutput.txt
+                     echo "******** Below is the affected VM${c} ********
+                          
+********* Recycle Performed **********" >>  /dedmswscrtp2/admin/restartoutput.txt 
+			cd $FMRBIN
+			sh stopServer.sh $(echo $c) >> ../../../../admin/restartoutput.txt
+			sleep 30s
+			sh startServer.sh $(echo $c) >> ../../../../admin/restartoutput.txt
+                     echo "Hello All,
+
+No more available seesions exception found on VM${c}.
+Application have been restarted sucessfully now.
+
+Thanks, 
+vignesh Sekar" | mailx -s " Exception found in VM and application has been recylced successfully" -a /dedmswscrtp2/admin/restartoutput.txt a613521@fmr.com a447267@fmr.com a591961@fmr.com a622055@fmr.com
+else
+				echo "Hang pattern unmatched"
+			fi
+		else
+		echo " VM${c} logs have not been updated"
+		fi
+echo $tnol > /dedmswscrtp2/app/edms/tcserver/vfabric-tc-server-standard-2.8.1.RELEASE/vm${c}/logs/linescount.txt
+done
+#*******To clear restartoutput file if it's not updated for last two days*******
+find /dedmswscrtp2/admin/ -type f -mtime +2 -name restartoutput.txt -exec rm -r {} \;
+
+
+
+
+
+
+
