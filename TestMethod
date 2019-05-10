@@ -1,0 +1,135 @@
+package com.rim.operation;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+public class Testmethod {
+	        String arr[] = null;
+	        URL url;
+	        static ArrayList<String> htmlPageFetcher=new ArrayList<String>();
+	        int a=0;
+		    static Model model=new Model();
+		
+	public void hostchecker() throws Exception{
+		 TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+	            public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
+	            public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+	            public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+
+	        } };
+
+	        SSLContext sc = SSLContext.getInstance("SSL");
+	        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+	        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+	        // Create all-trusting host name verifier
+	        HostnameVerifier allHostsValid = new HostnameVerifier() {
+	            public boolean verify(String hostname, SSLSession session) { return true; }
+	        };
+	        // Install the all-trusting host verifier
+	        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+	        
+	        //Host Verifier Done
+	        	
+	        }
+	public String []  getStatus(String input) throws Exception{
+		
+			@SuppressWarnings("resource")
+			BufferedReader in = new BufferedReader(new FileReader("/apps/tomcat7/servers/server1/webapps/RIM_Application_Validator/WEB-INF/classes/URL_feeder.txt"));
+			String str;
+	        String appspecific="";
+    	    while((str = in.readLine()) != null){
+                String[] arr1 = str.split("&&");
+                for(int i=0 ; i<arr1.length; i++)
+                    {
+                	if(arr1[i].contains (input))
+                	{
+                		appspecific =(appspecific+(arr1[i]+"&&").replaceAll(input, ""));
+                		arr = appspecific.split("&&");             		
+                	}
+                    }
+                
+    	    }
+    	    return arr;
+		}
+			
+    public int getstauscode(String arr) throws Exception
+    {
+    	            hostchecker();
+	              	try{
+	        		URL url = new URL(arr);
+        		    URLConnection con = url.openConnection();
+                    a = ((HttpURLConnection) con).getResponseCode();
+	        	}
+	        	catch (Exception e)
+	        	{
+	        		a=100;
+	        	}
+			return a;        
+    }
+    
+    public int patternmatcher(String arr) throws Exception
+    
+    {
+    	    	int b;
+				try
+    	    	   {
+    	    		URL url = new URL(arr);
+    	    	    String inputLine;
+    	    	    hostchecker();
+    	    	    BufferedReader inside = new BufferedReader(new InputStreamReader(url.openStream()));
+    	    	    while ((inputLine = inside.readLine()) != null)   
+    	    	        {
+    	    	        	htmlPageFetcher.add(inputLine.trim());
+    	    	        	
+    	    	       	}
+    	    	        	inside.close();  
+    	    	    }
+    	    	catch(Exception e)
+    	    		{
+    	    				
+    	    		}
+    	        finally
+    	    	       { 
+    	    	    	   String pattermatchdown="<p>THE SERVER IS DOWN</p>";
+    	    	    	   String pattermatchup="<p>THE SERVER IS UP</p>";
+    	    	    	   
+    	    	    	   if(htmlPageFetcher.contains(pattermatchdown))
+    	    	    	   {
+    	    	    		   b=100;
+    	    	    	   }
+    	    	    	   else if(htmlPageFetcher.contains(pattermatchup))
+    	    	    	   {
+    	    	    		   b=10;
+    	    	    	   }
+    	    	    	   else
+    	    	    	   {
+    	    	    		   b=0;
+    	    	    	   }
+    	    	    	   htmlPageFetcher.clear();
+    	    	    	}       
+    			
+				return b;
+    	    }
+}
+
+
+
+
+
+        	
+
+    
+    
